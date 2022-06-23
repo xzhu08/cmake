@@ -17,4 +17,6 @@ int main(int argc, char** argv) {
 
 	const double output_value = sqrt(input_value); std::cout << 
 	"The square root of " << input_value << " is " << output_value << std::endl;
+
+	return 0;
 }
