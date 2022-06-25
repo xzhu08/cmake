@@ -3,7 +3,9 @@
 #include <string>
 
 #include "TutorialConfig.h"
+#ifdef USE_MYMATH
 #include "MathFunctions.h"
+#endif
 
 int main(int argc, char** argv) {
 	if(argc < 2) {
@@ -13,8 +15,12 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	double input_value = std::stod(argv[1]);
-	double output_value = mysqrt(input_value);
+	const double input_value = std::stod(argv[1]);
+#ifdef USE_MYMATH
+	const double output_value = mysqrt(input_value);
+#else
+	const double output_value = sqrt(input_value);
+#endif
 	std::cout << argv[0] << ": " << output_value << std::endl;
 	return 0;
 }

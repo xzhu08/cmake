@@ -7,19 +7,27 @@ project(Tutorial VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# make MathFunctions optional
+# Note the option should be set before setting configure file
+option(USE_MYMATH "Use tutorial provided math implementation" ON)
+
 # set configure file
 configure_file(TutorialConfig.h.in TutorialConfig.h)
 
-# add the MathFunctions library
-add_subdirectory(MathFunctions)
+if(USE_MYMATH)
+	# add the MathFunctions library
+	add_subdirectory(MathFunctions)
+	list(APPEND EXTRA_LIBS MathFunctions)
+	list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/MathFunctions")
+endif()
 
 # add the executable
 add_executable(Tutorial tutorial.cxx)
 
-target_link_libraries(Tutorial PUBLIC MathFunctions)
+target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 
 # add include directories
 target_include_directories(Tutorial PUBLIC 
 						   "${PROJECT_BINARY_DIR}"
-						   "${PROJECT_SOURCE_DIR}/MathFunctions"
+						   ${EXTRA_INCLUDES}
 						   )
