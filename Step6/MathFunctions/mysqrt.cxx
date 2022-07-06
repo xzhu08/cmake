@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cmath>
+#include "Table.h"
 
 // Calculate square root by using Newton method.
 // f(x0) / (x0 - x1) = f^'(x0)
@@ -11,12 +11,13 @@ double mysqrt(double a) {
 	if (a <= 0) {
 		return 0;
 	}
-#if defined(HAVE_LOG) && defined(HAVE_EXP)
-	double x = std::exp(std::log(a) * 0.5);
-	std::cout << "Computing sqrt of " << a << " to be " << x
-	          << " using log and exp" << std::endl;
-#else
+
 	double x = a;
+
+	if(a >= 1 && a <= 10) {
+		std::cout << "Use the table to help find an initial value " << std::endl;
+		x = sqrtTable[static_cast<int>(a)];
+	}
 
 	for (int i = 0; i <  10; i++) {
 		if (x <= 0) {
@@ -26,6 +27,6 @@ double mysqrt(double a) {
 		x = x + 0.5 * delta / x;
 		std::cout << "Computing sqrt of " << a << " to be " << x << std::endl;
 	}
-#endif
+
 	return x;
 } 
